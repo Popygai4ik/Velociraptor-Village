@@ -1,4 +1,5 @@
 import datetime
+from sqlalchemy import orm
 import sqlalchemy
 from flask_login import UserMixin
 from sqlalchemy_serializer import SerializerMixin
@@ -22,6 +23,7 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
+    news = orm.relationship("News", back_populates='user')
 
 
     def __repr__(self):

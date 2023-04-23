@@ -1,11 +1,19 @@
 #  Импортирем из flask раздел Flask
-from flask import Flask, redirect, render_template
-from flask_login import login_user, login_required, logout_user
+import os
+import uuid
+
+from flask import Flask, redirect, render_template, request
+from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.utils import secure_filename
+
 from forms.login import LoginForm
 from flask_login import LoginManager
 from data import db_session
 from forms.user import RegisterForm
 from data.users import User
+from forms.new_tovar import NewsForm
+from data.tovar import News
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -13,7 +21,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 def main():
-    db_session.global_init("only progect/db/all.sqlite")
+    db_session.global_init("db/all.sqlite")
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -21,8 +29,9 @@ def main():
         return db_sess.query(User).get(user_id)
     @app.route('/')
     def index():
-        # db_sess = db_session.session.create_session()
-        return render_template('index.html')
+        db_sess = db_session.create_session()
+        news = db_sess.query(News)
+        return render_template("index.html", news=news)
 
     @app.route('/register', methods=['GET', 'POST'])
     def reqister():
@@ -68,6 +77,36 @@ def main():
     def logout():
         logout_user()
         return redirect("/")
+
+    @app.route('/new_tovar', methods=['GET', 'POST'])
+    @login_required
+    def add_news():
+        form = NewsForm()
+        if form.validate_on_submit():
+            db_sess = db_session.create_session()
+            news = News()
+
+            # filename = secure_filename(file.filename)
+            # image.save(os.path.join("static/img", filename))
+            news.title = form.title.data
+            news.content = form.content.data
+            news.cena = form.cena.data
+            # print(form.cena.data)
+            current_user.news.append(news)
+            db_sess.merge(current_user)
+            db_sess.commit()
+            file = request.files['file']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('static/img', filename))
+            return redirect("/")
+        if request.method == 'POST':
+            # This will be executed on POST request.
+            file = request.files['file']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('static/img', filename))
+        return render_template('new_tovar.html', title='Добавление новости',
+                                form=form, message='Товар добавлен')
+
     # app.run()
 
 
