@@ -1,2 +1,10 @@
-Flask
-db_session
+-> Flask
+-> sqlalchemy
+-> os
+-> datetime
+-> flask_login
+-> sqlalchemy_serializer
+-> werkzeug.security
+-> flask_wtf
+-> wtforms
+-> wtforms.validators
