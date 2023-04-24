@@ -87,6 +87,7 @@ def main():
     @login_required
     def add_news():
         form = NewsForm()
+        db_sess = db_session.create_session()
         if form.validate_on_submit():
             db_sess = db_session.create_session()
             news = News()
@@ -94,7 +95,11 @@ def main():
             # filename = secure_filename(file.filename)
             # image.save(os.path.join("static/img", filename))
             news.title = form.title.data
-            shena = form.content.data
+            shena = form.cena.data
+            if not shena.isdigit():
+                return render_template('new_tovar.html', title='Добавление новости',
+                                       form=form, message='Ведите цену цифрами')
+
             news.content = shena
             news.cena = form.cena.data
             # print(form.cena.data)
@@ -125,7 +130,7 @@ def main():
         # flash('Image successfully uploaded and displayed below')
         # flash('Chena')
         return render_template('new_tovar.html', title='Добавление новости',
-                                form=form, message='Товар добавлен')
+                                form=form)
 
     # app.run()
 

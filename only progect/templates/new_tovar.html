@@ -23,7 +23,7 @@
         {% endfor %}
     </p>
     <p class="1">
-        {{form.cena.label}}<br>
+        {{form.cena.label}} {{message}}!!!<br>
         {{ form.cena(class="form-control-chena")}}<br>
         {% for error in form.cena.errors %}
             <p content="alert alert-danger" role="alert">
