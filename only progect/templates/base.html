@@ -8,24 +8,46 @@
                              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
                              crossorigin="anonymous">
     <style>
+        body {
+        background: url("static/img/neon-tropical-monstera-leaf-banner.jpg") repeat-x;
+  animation: slide 3s linear infinite;
+    }}
         .form-control-chena {
         width: 150px;
         white-space: nowrap;
+        background-color: white;
+
+        }
+        .navbar_navbar-light_bg-light{
+        background-color: rgb(35,11,70);
         }
         .col_md6_border_rounded {
         white-space: nowrap;
-        width: 300px;
+        width: auto;
+        height: auto;
         display: inline-block;
+        background-color: white;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        }
+        .photo{
+        height: 270px;
+        width: 270px
         }
     </style>
     <title>{{title}}</title>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#"></a>
+    <nav class="navbar_navbar-light_bg-light">
+        <a href="/" class="btn btn-secondary">Home</a>
+{% if current_user.is_authenticated %}
+    <a href="/new_tovar" class="btn btn-secondary">Добавить товар</a>
+{% endif %}
         {% if current_user.is_authenticated %}
-    <a class="navbar-brand" href="/logout">{{ current_user.name }}</a>
+    <a class="navbar-brand" style="position: absolute;
+right: 0;" href="/logout">{{ current_user.name }}</a>
 {% else %}
     <p>
         <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
@@ -36,9 +58,6 @@
 </header>
 <!-- Begin page content -->
 <main role="main" class="container">
-{% if current_user.is_authenticated %}
-    <a href="/new_tovar" class="btn btn-secondary">Добавить новость</a>
-{% endif %}
     {% block content %}{% endblock %}
 </main>
 </body>
