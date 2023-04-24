@@ -1,8 +1,9 @@
 #  Импортирем из flask раздел Flask
 import os
 import uuid
+from random import random, choice
 
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 
@@ -17,11 +18,15 @@ from data.tovar import News
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 def main():
-    db_session.global_init("db/all.sqlite")
+    db_session.global_init("only progect/db/all.sqlite")
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -89,21 +94,36 @@ def main():
             # filename = secure_filename(file.filename)
             # image.save(os.path.join("static/img", filename))
             news.title = form.title.data
-            news.content = form.content.data
+            shena = form.content.data
+            news.content = shena
             news.cena = form.cena.data
             # print(form.cena.data)
             current_user.news.append(news)
-            db_sess.merge(current_user)
-            db_sess.commit()
             file = request.files['file']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('static/img', filename))
-            return redirect("/")
-        if request.method == 'POST':
+            if file and allowed_file(file.filename):
+                chars = 'abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+                password = ''
+                for n in range(1):
+                    for i in range(25):
+                        password += choice(chars)
+                filename = secure_filename(file.filename)
+                file.save(os.path.join('only progect/static/img', filename))
+                k = password + '.' + filename.rsplit('.', 1)[1].lower()
+                # print(k)
+                os.rename(f'only progect/static/img/{filename}', f'only progect/static/img/{k}')
+                # print('upload_image filename: ' + filename)
+                flash('Image successfully uploaded and displayed below')
+                news.filename = k
+                db_sess.merge(current_user)
+                db_sess.commit()
+                return redirect('/')
+        # if request.method == 'POST':
             # This will be executed on POST request.
-            file = request.files['file']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join('static/img', filename))
+            # file = request.files['file']
+            # filename = secure_filename(file.filename)
+            # file.save(os.path.join('static/img', filename))
+        # flash('Image successfully uploaded and displayed below')
+        # flash('Chena')
         return render_template('new_tovar.html', title='Добавление новости',
                                 form=form, message='Товар добавлен')
 
