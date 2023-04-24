@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-TOKEN = 'MTA5NzUzODMxNzAzOTQ1MjI0Mg.G4D2lv.Y_aKv94o-XP88W1vhwdmDXpijpszyuq4qXv4kA'
+TOKEN = ''
 
 
 config = {
