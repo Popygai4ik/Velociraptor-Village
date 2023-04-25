@@ -36,7 +36,7 @@ def main():
     def index():
         db_sess = db_session.create_session()
         news = db_sess.query(News)
-        return render_template("index.html", news=news, title='Все товары')
+        return render_template("index.html", news=news, title='Velociraptor     Village')
 
     @app.route('/register', methods=['GET', 'POST'])
     def reqister():
