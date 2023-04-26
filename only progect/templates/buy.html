@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="background-color: white; border-radius: 15px; width: 320px; margin: 10px; padding: 10px;">Выбор товара</h1>
+{% for item in news%}
+<div class="col_md6_border_rounded" id="7">
+    <h2>{{item.title}}</h2>
+    <div>
+        <img style="width: 300px;" class="photo" src="/static/img/{{item.filename}}" alt="Тут должно фото товара">
+    </div>
+    <div style="text-overflow: ellipsis; word-wrap: break-word;">
+        {{item.content}}
+
+    </div>
+
+    <div>
+        {{item.cena}} ₽
+    </div>
+    <div>
+        Автор товара - {{item.user.name}}
+    </div>
+     <div>
+        <h6>Введите адрес доставки!!!</h6>
+    </div>
+    <input type="text" size="60">
+  </p>
+     <a href="/ready" class="btn btn-warning">
+            Купить
+        </a>
+</div>
+{% endfor %}
+{% endblock %}

@@ -13,7 +13,9 @@ from data import db_session
 from forms.user import RegisterForm
 from data.users import User
 from forms.new_tovar import NewsForm
+from forms.adress import adressForm
 from data.tovar import News
+from data.adres import Adr
 
 
 app = Flask(__name__)
@@ -36,7 +38,14 @@ def main():
     def index():
         db_sess = db_session.create_session()
         news = db_sess.query(News)
+        # print(news)
         return render_template("index.html", news=news, title='Velociraptor     Village')
+    @app.route('/buy/<int:id>')
+    def buy(id):
+        db_sess = db_session.create_session()
+        news = db_sess.query(News).filter(News.id == id, News.user == current_user)
+        return render_template("buy.html", news=news)
+
 
     @app.route('/register', methods=['GET', 'POST'])
     def reqister():
@@ -82,7 +91,12 @@ def main():
     def logout():
         logout_user()
         return redirect("/")
-
+    @app.route('/ready')
+    def ready():
+        return render_template('ready.html')
+    @app.route('/pashalka')
+    def pashalka():
+        return render_template('pashalka.html')
     @app.route('/new_tovar', methods=['GET', 'POST'])
     @login_required
     def add_news():
@@ -100,7 +114,7 @@ def main():
                 return render_template('new_tovar.html', title='Добавление новости',
                                        form=form, message='Ведите цену цифрами')
 
-            news.content = shena
+            news.content = form.content.data
             news.cena = form.cena.data
             # print(form.cena.data)
             current_user.news.append(news)
@@ -113,7 +127,8 @@ def main():
                         password += choice(chars)
                 filename = secure_filename(file.filename)
                 file.save(os.path.join('only progect/static/img', filename))
-                k = password + '.' + filename.rsplit('.', 1)[1].lower()
+                print(filename)
+                k = password + '.' + filename.rsplit('.', 1)[0].lower()
                 # print(k)
                 os.rename(f'only progect/static/img/{filename}', f'only progect/static/img/{k}')
                 # print('upload_image filename: ' + filename)
