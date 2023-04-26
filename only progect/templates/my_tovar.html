@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="background-color: white; border-radius: 15px; width: 320px; margin: 10px; padding: 10px;">Мои товары</h1>
+{% for item in news%}
+<div class="col_md7_border_rounded" id="7">
+    <div>
+    <h2>{{item.title}}</h2>
+
+    </div>
+    <div>
+        <img style="width: 300px;" class="photo" src="/static/img/{{item.filename}}" alt="Тут должно фото товара">
+    </div>
+    <div style="text-overflow: ellipsis; word-wrap: break-word; word-break:break-all;">
+        {{item.content}}
+
+    </div>
+
+    <div>
+        {{item.cena}} ₽
+    </div>
+    <div>
+        Автор товара - {{item.user.name}}
+    </div>
+    <div>
+        <a style="color:black;" href="/red/{{ item.id }}" class="btn btn-warning">
+            Изменить
+        </a>
+        <a style="color:black;" href="/news_delete/{{ item.id }}" class="btn">
+            Удалить товар
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

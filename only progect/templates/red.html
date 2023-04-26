@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Добавление товара</h1>
+<h1>Редактирование товара</h1>
 <form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>
@@ -31,14 +31,6 @@
             </p>
         {% endfor %}
     </p>
-    <div>
-        <label for="photo">Выберите файл</label><dl>
-            <p>
-                <input type="file" id="photo" name="file" class="form-control" autocomplete="off" required>
-            </p>
-        </dl>
-        <p>
-    </div>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <p style="color:black;">{{ form.submit(type="submit", class="btn btn-primary") }}</p>
 </form>
 {% endblock %}

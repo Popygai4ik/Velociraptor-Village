@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <link rel="icon" href="static/img/space.png">
     <meta charset="utf-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
                              <link rel="stylesheet"
@@ -8,6 +9,30 @@
                              integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
                              crossorigin="anonymous">
     <style>
+    .col_md7_border_rounded {
+  width: auto;
+  display: inline-block;
+  height: auto;
+  background: lightgrey;
+  border: 3px inset white;
+  background: #e8e8e8;
+  box-shadow: inset 20px 20px 60px #c5c5c5, inset -20px -20px 60px #ffffff;
+  transition: all .5s ease-in-out;
+  border-radius: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+  color: #8a8989;
+  white-space: nowrap;
+  margin: 10px;
+        padding: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.col_md7_border_rounded:hover {
+  transform: translateY(-5px);
+  transition: all .5s ease-in-out;
+}
         .form-control-chena {
         width: 150px;
         white-space: nowrap;
@@ -87,10 +112,16 @@
 </head>
 <body style="background-color:#CCCCFF;">
 <header style="background-color:#7AB9F9">
-    <nav style="heigth: auto; width: auto; background-color:#7AB9F9; display: flex;" class="navbar_navbar-light_bg-light">
-        <a href="/" class="btn btn-secondary">Home</a>
+    <nav style="background-color:#7AB9F9;display: block;
+    margin:0 auto; display: flex;" class="navbar_navbar-light_bg-light">
+        <div style="text-align: center; display: block;
+    margin-left: auto;
+    margin-right: auto">
+        <img style="height:60;width:60px;" src="/static/img/dino.png" alt="Тут должно фото сайта">
+        <a href="/" class="btn btn-secondary">Все товары</a>
 {% if current_user.is_authenticated %}
     <a href="/new_tovar" class="btn">Добавить товар</a>
+    <a href="/my_tovar" class="btn">Мои товары</a>
 {% endif %}
         {% if current_user.is_authenticated %}
     <a class="btn btn-primary " href="/logout">Выйти</a>{% else %}
@@ -98,7 +129,10 @@
         <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
         <a class="btn btn-success" href="/login">Войти</a>
     </p>
+
+
 {% endif %}
+            <img style="height:60;width:60px;" src="/static/img/dinosaur.png" alt="Тут должно фото сайта"></div>
     </nav>
 </header>
 <!-- Begin page content -->
